@@ -38,11 +38,11 @@ class MoveRobotNode(Node):
         self.linear_velocity = 0.7
         self.angular_velocity = 0.0
         if obstacle_left:
-            self.linear_velocity = 0.2
+            self.linear_velocity = 0.01
             self.angular_velocity = -0.2#0.2
             self.get_logger().info('Izq: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
         elif obstacle_right:
-            self.linear_velocity = 0.2
+            self.linear_velocity = 0.01
             self.angular_velocity = 0.2#-0.2
             self.get_logger().info('Der: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
         elif obstacle_center:
