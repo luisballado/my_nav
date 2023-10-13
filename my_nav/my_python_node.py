@@ -1,4 +1,6 @@
 import rclpy
+#Import math Library
+import math 
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
@@ -29,7 +31,7 @@ class MoveRobotNode(Node):
 
         ranges = msg.ranges
 
-        obstacle_threshold = 2.0
+        obstacle_threshold = 1.0
         
         obstacle_right = any(r < obstacle_threshold for r in ranges[90:135])
         obstacle_center = any(r < obstacle_threshold for r in ranges[135:225])
@@ -38,11 +40,11 @@ class MoveRobotNode(Node):
         self.linear_velocity = 0.7
         self.angular_velocity = 0.0
         if obstacle_left:
-            self.linear_velocity = 0.01
+            self.linear_velocity = 0.00
             self.angular_velocity = -0.2#0.2
             self.get_logger().info('Izq: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
         elif obstacle_right:
-            self.linear_velocity = 0.01
+            self.linear_velocity = 0.00
             self.angular_velocity = 0.2#-0.2
             self.get_logger().info('Der: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
         elif obstacle_center:
