@@ -1,4 +1,5 @@
-.py~
-.txt~
-.xacro~
-.world~
+*.py~
+*.txt~
+*.xacro~
+*.world~
+*.pyc~

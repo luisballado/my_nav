@@ -56,7 +56,7 @@ class MoveRobotNode(Node):
         msg.linear.x  = self.linear_velocity
         msg.angular.z = self.angular_velocity
         self.publisher.publish(msg)
-        self.get_logger().info('Moviendo el robot:: veloc linear: %f velc ang: %f' % (self.linear_velocity, self.angular_velocity))
+        #self.get_logger().info('Moviendo el robot:: veloc linear: %f velc ang: %f' % (self.linear_velocity, self.angular_velocity))
 
 def main(args=None):
 
