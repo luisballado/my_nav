@@ -4,7 +4,7 @@ import math
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
-from nav_msgs.msg import Odometry 
+from geometry_msgs.msg import Odometry #nav_msgs.msg
 
 class MoveRobotNode(Node):
 
@@ -13,7 +13,7 @@ class MoveRobotNode(Node):
 
         self.publisher = self.create_publisher(Twist, '/cmd_vel', 10)
         self.subscription = self.create_subscription(LaserScan, '/scan', self.scan_callback,10)
-        self.subscription_odom = self.create_subscription(Odometry, '/odom', self.odom_callback,10)
+        self.subscription = self.create_subscription(Odometry, '/odom', self.odom_callback,10)
 
         self.linear_velocity = 1.0
         self.angular_velocity = 0.0
@@ -31,16 +31,8 @@ class MoveRobotNode(Node):
 
     def odom_callback(self, msg):
         
-        x = msg.pose.pose.position.x
-        y = msg.pose.pose.position.y
-        z = msg.pose.pose.position.z
-        quat_x = msg.pose.pose.orientation.x
-        quat_y = msg.pose.pose.orientation.y
-        quat_z = msg.pose.pose.orientation.z
-        quat_w = msg.pose.pose.orientation.w
-
-        self.get_logger().info("Posición: ({}, {}, {})".format(x, y, z))
-        self.get_logger().info("Orientación: ({}, {}, {})".format(quat_x, quat_y, quat_z))
+        self.get_logger().info("Posición: ({}, {}, {})".format(msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z))
+        self.get_logger().info("Orientación: ({}, {}, {})".format(msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z))
 
         #self.msg = Odometry()
         #msg.header.stamp = self.get_clock().now().to_msg()
@@ -73,15 +65,15 @@ class MoveRobotNode(Node):
         if obstacle_left:
             self.linear_velocity = 0.00
             self.angular_velocity = -0.2#0.2
-            self.get_logger().info('Izq: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
+           # self.get_logger().info('Izq: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
         elif obstacle_right:
             self.linear_velocity = 0.00
             self.angular_velocity = 0.2#-0.2
-            self.get_logger().info('Der: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
+            #self.get_logger().info('Der: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
         elif obstacle_center:
             self.angular_velocity = 0.2
             self.linear_velocity = 0.0
-            self.get_logger().info('Fren: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
+            #self.get_logger().info('Fren: %f - angl vel: %f' %(self.linear_velocity, self.angular_velocity))
                         
     def move_robot(self):
 
@@ -89,7 +81,7 @@ class MoveRobotNode(Node):
         msg.linear.x  = self.linear_velocity
         msg.angular.z = self.angular_velocity
         self.publisher.publish(msg)
-        #self.get_logger().info('Moviendo el robot:: veloc linear: %f velc ang: %f' % (self.linear_velocity, self.angular_velocity))
+       # self.get_logger().info('Moviendo el robot:: veloc linear: %f velc ang: %f' % (self.linear_velocity, self.angular_velocity))
 
 def main(args=None):
     
